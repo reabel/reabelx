@@ -5,9 +5,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         Reabelx.com
+        <br/>
+        Ryan Reabel | Full Stack Developer
       </header>
       <body>
-        <a href="https://blog.reabelx.com" 
+        <a href="http://blog.reabelx.com" 
           className="App-link"
           target="_blank"
           rel="noopener noreferrer"
