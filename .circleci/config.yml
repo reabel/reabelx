@@ -4,12 +4,12 @@ version: 2.1
 
 #Setup the orbs
 orbs:
-  node: circleci/node@20.2.0
+  node: circleci/node@5.1.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  build_and_test:
+  deploy:
     executor: node/default
     steps:
       - run:
@@ -37,23 +37,12 @@ jobs:
           name: Deploy via SFTP
           command: lftp sftp://USERNAME:PASSWORD@HOST -e "mirror -R build/ /reabelx/2023/; quit"
 
-  deploy: # this can be any name you choose
-    executor: heroku/default
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - heroku/deploy-via-git:
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
-
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   deploy_reabelx:
     jobs:
-      - build_and_test
       - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
           filters:
             branches:
               only: master # only deploy when on master
