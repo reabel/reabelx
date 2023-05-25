@@ -34,8 +34,8 @@ jobs:
           path: ~/project/build
           destination: build
       - run:
-        name: Deploy via SFTP
-        command: lftp sftp://USERNAME:PASSWORD@HOST -e "mirror -R build/ /reabelx/2023/; quit"
+          name: Deploy via SFTP
+          command: lftp sftp://USERNAME:PASSWORD@HOST -e "mirror -R build/ /reabelx/2023/; quit"
 
   deploy: # this can be any name you choose
     executor: heroku/default
