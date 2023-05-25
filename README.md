@@ -1,3 +1,11 @@
+# ReabelX specific section
+
+## Initial notes about deploying
+
+`yarn build` produces minified js but seemingly also a base index page, which means I should be able to ship the build folder over to the main server after built via CCI
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
