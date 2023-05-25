@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
+        Reabelx.com
+        <br/>
+        Ryan Reabel | Full Stack Developer
+      </header>
+      <body>
+        <a href="http://blog.reabelx.com" 
           className="App-link"
-          href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Blog
         </a>
-      </header>
+         | 
+        <a href="https://resume-reabel.vercel.app/" 
+          className="App-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >
+          Resume
+        </a>
+      </body>
+      <footer  className="App-footer">
+        Copyright 2023 Reabelx
+      </footer>
     </div>
   );
 }
