@@ -28,6 +28,7 @@ jobs:
   deploy:
     docker:
       - image: cimg/deploy:2023.05
+    resource_class: small
     steps:
       - run:
           name: Install LFTP
@@ -43,10 +44,9 @@ jobs:
             sudo echo $IONOS_HOST >> ~/.ssh/known_hosts
       - run:
           name: Deploy via SFTP
-          # command: |
-            # lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
           command: |
-            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "ls; quit"
+            mkdir ~/.ssh;
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit";
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
