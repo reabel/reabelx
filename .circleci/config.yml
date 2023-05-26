@@ -35,8 +35,12 @@ jobs:
             sudo apt update;
             sudo apt install lftp;
       - run:
+          name: check vars
+          command: echo $USERNAME $PASSWORD $HOSTNAME
+      - run:
           name: Deploy via SFTP
-          command: lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
+          command: |
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
