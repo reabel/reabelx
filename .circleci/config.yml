@@ -9,20 +9,12 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  deploy:
+  build:
     executor: node/default
     steps:
-      - run:
-          name: Install LFTP
-          command: |
-            sudo apt update;
-            sudo apt install lftp;
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      # - run:
-      #     command: yarn test
-      #     name: Run tests
       - run:
           command: yarn build
           name: Build app
@@ -34,15 +26,49 @@ jobs:
           path: ~/project/build
           destination: build
       - run:
+          name: Install LFTP
+          command: |
+            sudo apt update;
+            sudo apt install lftp;
+      - run: 
+          name: add host to known values
+          #command: |
+          #  for ip in $(dig @8.8.8.8 $HOSTNAME +short); do ssh-keyscan $HOSTNAME,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts
+          # ssh-keyscan introduces potential MITM attack
+          command: |
+            ssh-keyscan -t rsa $HOSTNAME >> ~/.ssh/known_hosts;
+            cat ~/.ssh/known_hosts;
+
+      - run:
           name: Deploy via SFTP
-          command: lftp sftp://${USERNAME}:${PASSWORD}@${HOSTNAME} -e "mirror -R build/ /reabelx/; quit"
+          command: |
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/; quit";
+  deploy:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - run:
+          name: Install LFTP
+          command: |
+            sudo apt update;
+            sudo apt install lftp;
+      - run: 
+          name: add host to known values
+          command: |
+            for ip in $(dig @8.8.8.8 $HOSTNAME +short); do ssh-keyscan $HOSTNAME,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy via SFTP
+          command: |
+            mkdir ~/.ssh;
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit";
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   deploy_reabelx:
     jobs:
-      - deploy:
-          filters:
-            branches:
-              only: master # only deploy when on master
+      - build
+      # #- deploy:
+      #     filters:
+      #       branches:
+      #         only: master # only deploy when on master
