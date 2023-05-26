@@ -17,7 +17,7 @@
   background-color: #282c34;
   min-height: 50vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -48,6 +48,16 @@ body {
 
 .App-link {
   color: #61dafb;
+}
+
+.Name {
+  color: #FFFFFF33;
+  text-shadow: #463d3d 2px 2px 2px;
+  text-transform: uppercase;
+  /* rotate text -90 degress */
+  transform: rotate(-90deg);
+  font-size: 2em;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @keyframes App-logo-spin {
