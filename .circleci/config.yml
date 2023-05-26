@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Deploy via SFTP
           command: |
-            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit";
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/; quit";
   deploy:
     machine:
       image: ubuntu-2004:202010-01
@@ -67,7 +67,10 @@ jobs:
 workflows:
   deploy_reabelx:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: master # only build when on master
       # #- deploy:
       #     filters:
       #       branches:

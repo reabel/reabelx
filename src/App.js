@@ -4,9 +4,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        Reabelx.com
-        <br/>
-        Ryan Reabel | Full Stack Developer
+        <div className="Name">
+          Ryan Reabel
+        </div>
+        <div className="Title">
+          Full Stack Developer
+        </div>
       </header>
       <body>
         <a href="http://blog.reabelx.com" 
@@ -24,9 +27,10 @@ function App() {
           >
           Resume
         </a>
+        <br />
+        Copyright 2023
       </body>
       <footer  className="App-footer">
-        Copyright 2023 Reabelx
       </footer>
     </div>
   );
