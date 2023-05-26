@@ -9,14 +9,9 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  deploy:
+  build:
     executor: node/default
     steps:
-      - run:
-          name: Install LFTP
-          command: |
-            sudo apt update;
-            sudo apt install lftp;
       - checkout
       - node/install-packages:
           pkg-manager: yarn
@@ -30,6 +25,15 @@ jobs:
       - store_artifacts:
           path: ~/project/build
           destination: build
+  deploy:
+    machine:
+      image: circleci/classic:latest
+    steps:
+      - run:
+          name: Install LFTP
+          command: |
+            sudo apt update;
+            sudo apt install lftp;
       - run:
           name: Deploy via SFTP
           command: lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
@@ -39,6 +43,7 @@ jobs:
 workflows:
   deploy_reabelx:
     jobs:
+      - build
       - deploy:
           filters:
             branches:
