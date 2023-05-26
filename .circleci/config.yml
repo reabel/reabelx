@@ -26,8 +26,8 @@ jobs:
           path: ~/project/build
           destination: build
   deploy:
-    docker:
-      - image: cimg/deploy:2023.05
+    machine:
+      image: ubuntu-2004:202010-01
     resource_class: small
     steps:
       - run:
