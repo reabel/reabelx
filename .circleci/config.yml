@@ -25,10 +25,27 @@ jobs:
       - store_artifacts:
           path: ~/project/build
           destination: build
+      - run:
+          name: Install LFTP
+          command: |
+            sudo apt update;
+            sudo apt install lftp;
+      - run: 
+          name: add host to known values
+          #command: |
+          #  for ip in $(dig @8.8.8.8 $HOSTNAME +short); do ssh-keyscan $HOSTNAME,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts
+          # ssh-keyscan introduces potential MITM attack
+          command: |
+            ssh-keyscan -t rsa $HOSTNAME >> ~/.ssh/known_hosts;
+            cat ~/.ssh/known_hosts;
+
+      - run:
+          name: Deploy via SFTP
+          command: |
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit";
   deploy:
     machine:
       image: ubuntu-2004:202010-01
-    resource_class: small
     steps:
       - run:
           name: Install LFTP
@@ -51,7 +68,7 @@ workflows:
   deploy_reabelx:
     jobs:
       - build
-      - deploy:
-          filters:
-            branches:
-              only: master # only deploy when on master
+      # #- deploy:
+      #     filters:
+      #       branches:
+      #         only: master # only deploy when on master
