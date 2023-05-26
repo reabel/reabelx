@@ -35,13 +35,10 @@ jobs:
           command: |
             sudo apt update;
             sudo apt install lftp;
-      - run:
-          name: see what's available to us
-          command: ls
       - run: 
           name: add host to known values
           command: |
-            sudo echo $IONOS_HOST >> ~/.ssh/known_hosts
+            for ip in $(dig @8.8.8.8 $HOSTNAME +short); do ssh-keyscan $HOSTNAME,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts
       - run:
           name: Deploy via SFTP
           command: |
