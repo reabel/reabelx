@@ -68,6 +68,9 @@ workflows:
   deploy_reabelx:
     jobs:
       - build
+        filters:
+          branches:
+            only: master # only build when on master
       # #- deploy:
       #     filters:
       #       branches:
