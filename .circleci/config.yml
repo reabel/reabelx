@@ -26,8 +26,8 @@ jobs:
           path: ~/project/build
           destination: build
   deploy:
-    machine:
-      image: circleci/classic:latest
+    docker:
+      - image: cimg/deploy:2023.05
     steps:
       - run:
           name: Install LFTP
