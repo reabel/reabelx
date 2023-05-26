@@ -39,8 +39,10 @@ jobs:
           command: echo $USERNAME $PASSWORD $HOSTNAME
       - run:
           name: Deploy via SFTP
+          # command: |
+            # lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
           command: |
-            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "mirror -R build/ /reabelx/2023/; quit"
+            lftp sftp://$USERNAME:$PASSWORD@$HOSTNAME -e "ls; quit"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
