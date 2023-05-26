@@ -35,8 +35,12 @@ jobs:
             sudo apt update;
             sudo apt install lftp;
       - run:
-          name: check vars
-          command: echo $USERNAME $PASSWORD $HOSTNAME
+          name: see what's available to us
+          command: ls
+      - run: 
+          name: add host to known values
+          command: |
+            sudo echo $IONOS_HOST >> ~/.ssh/known_hosts
       - run:
           name: Deploy via SFTP
           # command: |
