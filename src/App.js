@@ -28,7 +28,7 @@ function App() {
           Resume
         </a>
         <br />
-        Copyright 2023
+        Copyright 2024
       </body>
       <footer  className="App-footer">
       </footer>
